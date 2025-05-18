@@ -39,7 +39,7 @@ instance.interceptors.response.use(
       // Handle 401 Unauthorized error
       const currentPath = window.location.pathname;
 
-      window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      window.location.href = `/login?reauthenticating=true&redirect=${encodeURIComponent(currentPath)}`;
     }
   }
 );
