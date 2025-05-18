@@ -9,7 +9,5 @@ const goToStripe = async () => {
 };
 
 export default function Page() {
-  return (
-    <button onClick={goToStripe}>Donate</button>
-  );
+  return <button onClick={goToStripe}>Donate</button>
 }

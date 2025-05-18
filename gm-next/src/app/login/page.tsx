@@ -21,9 +21,15 @@ export default function Page() {
     defaultValues: {} as z.infer<typeof loginSchema>,
     validators: { onChange: loginSchema },
     onSubmit: ({ value }) =>
-      axios
-        .post("/login", { email: value.email, password: value.password })
-        .then(() => router.push(searchParams.get("redirect") ?? "/")),
+      axios.post("/login", { email: value.email, password: value.password }).then(() => {
+        const route = searchParams.get("redirect") ?? "/";
+
+        if (searchParams.get("reauthenticating")) {
+          toast.success("Alright buddy, chop chop. Daddy needs his money.");
+        }
+
+        router.push(route);
+      }),
   });
 
   useEffect(() => {
@@ -32,7 +38,7 @@ export default function Page() {
         description: "Enter your creds so I can get paid.",
       });
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <form
