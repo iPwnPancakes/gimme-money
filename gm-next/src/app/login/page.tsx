@@ -6,6 +6,7 @@ import { z } from "zod";
 import axios from "@/utils/axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -27,7 +28,9 @@ export default function Page() {
 
   useEffect(() => {
     if (searchParams.get("reauthenticating")) {
-      console.log("reauthenticating");
+      toast.error("Looks like you need to log in again.", {
+        description: "Enter your creds so I can get paid.",
+      });
     }
   }, [searchParams]);
 
