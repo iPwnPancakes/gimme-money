@@ -19,9 +19,7 @@ export default function Page() {
     defaultValues: {} as z.infer<typeof registerSchema>,
     validators: { onChange: registerSchema },
     onSubmit: ({ value }) =>
-      axios
-        .post("/register", value)
-        .then(() => router.push("/")),
+      axios.post("/register", value).then(() => router.push("/")),
   });
 
   return (

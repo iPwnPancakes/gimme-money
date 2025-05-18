@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
@@ -29,5 +29,19 @@ function hasCookie(name: string): boolean {
   // look for “name=” at the start or right after a “; ”
   return new RegExp(`(?:^|; )${name}=`).test(document.cookie);
 }
+
+instance.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  async (error: AxiosError) => {
+    const url = error.config.url;
+
+    if (url.includes("/api/") && error.response?.status === 401) {
+      // Handle 401 Unauthorized error
+      const currentPath = window.location.pathname;
+
+      window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+    }
+  }
+);
 
 export default instance;
